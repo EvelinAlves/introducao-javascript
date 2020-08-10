@@ -5,10 +5,26 @@ btnAddPaciente.addEventListener("click", (event) => {
   var form = document.querySelector("#form-add");
   var paciente = buscarDadosForm(form);
   var trPaciente = criarTR(paciente);
-  var tbody = document.querySelector("#tabela-pacientes");
-  tbody.appendChild(trPaciente);
-  form.reset();
+  if(validaPaciente(paciente)){
+    var tabela = document.querySelector("#tabela-pacientes");
+    tabela.appendChild(trPaciente);
+    form.reset();
+  };
+
 });
+
+function validaPaciente(paciente){
+  console.log(paciente);
+  if(!validacaoPeso(paciente.peso)){
+    console.log('Peso inválido');
+    return false;
+  } else if (!validacaoAltura(paciente.altura)) {
+    console.log('Altura inválida');
+    return false;
+  } else {
+    return true;
+  }
+}
 
 function buscarDadosForm(form) {
   var paciente = {
@@ -18,6 +34,8 @@ function buscarDadosForm(form) {
     gordura: form.gordura.value,
     imc: calculaIMC(form.peso.value, form.altura.value)
   };
+  validacaoPeso(paciente.peso);
+  validacaoAltura(paciente.altura);
   return paciente;
 };
 
